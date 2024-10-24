@@ -1,0 +1,16 @@
+@import "https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700&display=swap";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: 'Maven Pro', sans-serif;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+}

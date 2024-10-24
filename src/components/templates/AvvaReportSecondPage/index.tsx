@@ -1,6 +1,5 @@
 import { getVisceralFatAreaGauge } from '../../../pages/Reports/Avva/util'
 import ReactECharts from 'echarts-for-react'
-import visceralFatInfoGraphic from '../../../assets/img/second-page/visceral-fat-info-graphic.png'
 import ManIcon from '../../../assets/svg/second-page/man-icon.svg?react'
 import WomanIcon from '../../../assets/svg/second-page/woman-icon.svg?react'
 import { useMemo } from 'react'

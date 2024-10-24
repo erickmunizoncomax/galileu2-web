@@ -18,7 +18,7 @@ const GetObjectVolume = () => {
     const eventMapping: any = {
       front: 'frontPictureReadyEvent',
       back: 'backPictureReadyEvent',
-      left: 'sidePictureReadyEvent'
+      right: 'sidePictureReadyEvent'
     }
     const callback = (event: any) => {
       const { detail: { name }} = event

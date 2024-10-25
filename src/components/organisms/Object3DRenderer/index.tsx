@@ -171,6 +171,24 @@ const Object3DRenderer: FC<Object3DRendererProps> = (props) => {
         window.dispatchEvent(event)
       }, index * 1000)
     })
+
+    // const delay = async (ms: number) => {
+    //   return new Promise(resolve => setTimeout(resolve, ms))
+    // }
+    //
+    // const rotateAndCapture = async () => {
+    //   for (const [_, config] of configs.entries()) {
+    //     const { position, name } = config
+    //     scope.loadedModel.rotation.y = position
+    //     window.loadedModel = scope.loadedModel
+    //     await delay(500)
+    //     const eventInit = { detail: { name } }
+    //     const event = new CustomEvent(`readyToCaptureImage`, eventInit)
+    //     window.dispatchEvent(event)
+    //     await delay(1000)
+    //   }
+    // }
+    // rotateAndCapture()
   }
 
   useEffect(() => {

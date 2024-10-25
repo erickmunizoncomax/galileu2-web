@@ -1,8 +1,12 @@
 import { generateGaugeData } from '../../../../utils'
+import { CHART_COLORS } from '../../../../constants'
 
-export const getCardioMetabolicRiskChartOptions = (value: number, quintiles: Quintile[]) => {
+export const getCardioMetabolicRiskChartOptions = (value: number, quintiles: Quintile[], risk: Risk) => {
   const max = Math.max(...quintiles.map(q => q.limit))
-  const markPointValue = value / max * 100
+  let markPointValue = value / max * 100
+  const markPointColor = CHART_COLORS[risk]
+
+  if (value > max) markPointValue = 100
 
   return {
     animation: false,
@@ -27,7 +31,7 @@ export const getCardioMetabolicRiskChartOptions = (value: number, quintiles: Qui
         barWidth: 40,
         data: [20],
         itemStyle: {
-          color: '#6ECC39',
+          color: CHART_COLORS['very-low'],
           borderRadius: [15, 0, 0, 15]
         },
         markPoint: {
@@ -37,8 +41,9 @@ export const getCardioMetabolicRiskChartOptions = (value: number, quintiles: Qui
               yAxis: 0,
               symbol: 'arrow',
               symbolSize: 30,
+              symbolOffset: [0, 20],
               itemStyle: {
-                color: '#FFF',
+                color: markPointColor,
               }
             }
           ]
@@ -50,7 +55,7 @@ export const getCardioMetabolicRiskChartOptions = (value: number, quintiles: Qui
         stack: 'total',
         data: [20],
         itemStyle: {
-          color: '#B2D235'
+          color: CHART_COLORS.low
         }
       },
       {
@@ -59,7 +64,7 @@ export const getCardioMetabolicRiskChartOptions = (value: number, quintiles: Qui
         stack: 'total',
         data: [20],
         itemStyle: {
-          color: '#FFD400'
+          color: CHART_COLORS.normal
         }
       },
       {
@@ -68,7 +73,7 @@ export const getCardioMetabolicRiskChartOptions = (value: number, quintiles: Qui
         stack: 'total',
         data: [20],
         itemStyle: {
-          color: '#FF8800'
+          color: CHART_COLORS.high
         }
       },
       {
@@ -77,7 +82,7 @@ export const getCardioMetabolicRiskChartOptions = (value: number, quintiles: Qui
         stack: 'total',
         data: [20],
         itemStyle: {
-          color: '#FF3333',
+          color: CHART_COLORS['very-high'],
           borderRadius: [0, 15, 15, 0]
         }
       }
@@ -105,12 +110,12 @@ export const getVisceralFatAreaGauge = (value: number, quintiles: Quintile[], te
           }
         },
         pointer: {
-          show: true,
-          length: '80%',
-          width: 70,
-          showAbove: false,
+          icon: 'arrow',
+          length: '15%',
+          width: 15,
+          offsetCenter: [0, '-55%'],
           itemStyle: {
-            color: '#FFF'
+            color: 'auto',
           }
         },
         axisTick: {
@@ -123,17 +128,20 @@ export const getVisceralFatAreaGauge = (value: number, quintiles: Quintile[], te
           show: false
         },
         detail: {
-          formatter: '{value} cm²',
+          formatter: (value: number) => {
+            const truncated = Math.floor(value * 10) / 10
+            return `${truncated} cm²`.replace('.', ',')
+          },
           fontSize: 38,
           fontFamily: 'Maven Pro',
-          offsetCenter: [0, '20%']
+          offsetCenter: [0, '25%']
         },
         data: [{ value }]
       }
     ],
     graphic: {
       type: 'text',
-      left: 'center',
+      left: '26%',
       top: '70%',
       style: {
         text,
@@ -147,7 +155,7 @@ export const getVisceralFatAreaGauge = (value: number, quintiles: Quintile[], te
   }
 }
 
-export const getRCEstGauge = (value: number, quintiles: Quintile[], risk?: string) => {
+export const getRCEstGauge = (value: number, quintiles: Quintile[], risk?: string, summary?: boolean) => {
   const [min, max, color] = generateGaugeData(quintiles)
   const config: any = {
     animation: false,
@@ -166,12 +174,12 @@ export const getRCEstGauge = (value: number, quintiles: Quintile[], risk?: strin
           }
         },
         pointer: {
-          show: true,
-          length: '70%',
-          width: 40,
-          showAbove: false,
+          icon: 'arrow',
+          length: '16%',
+          width: 15,
+          offsetCenter: [0, '-50%'],
           itemStyle: {
-            color: '#FFF'
+            color: 'auto',
           }
         },
         axisTick: {
@@ -184,15 +192,31 @@ export const getRCEstGauge = (value: number, quintiles: Quintile[], risk?: strin
           show: false
         },
         detail: {
-          formatter: '{value}',
+          formatter: (value: number) => {
+            const truncated = Math.floor(value * 10) / 10
+            return `${truncated}`.replace('.', ',')
+          },
           fontSize: 22,
           fontFamily: 'Maven Pro',
-          offsetCenter: [0, '20%']
+          offsetCenter: [0, '25%']
         },
         data: [{ value }]
       }
     ],
   }
+
+  if (summary) {
+    config.series[0].pointer = {
+      icon: 'arrow',
+      length: '18%',
+      width: 15,
+      offsetCenter: [0, '-40%'],
+      itemStyle: {
+        color: 'auto',
+      }
+    }
+  }
+
   if (risk) {
     config.graphic = {
       type: 'text',
@@ -212,7 +236,7 @@ export const getRCEstGauge = (value: number, quintiles: Quintile[], risk?: strin
   return config
 }
 
-export const getFatPercentageGauge = (value: number, quintiles: Quintile[], risk?: string) => {
+export const getFatPercentageGauge = (value: number, quintiles: Quintile[], risk?: string, summary?: boolean) => {
   const [min, max, color] = generateGaugeData(quintiles)
   const config: any = {
     animation: false,
@@ -231,12 +255,12 @@ export const getFatPercentageGauge = (value: number, quintiles: Quintile[], risk
           }
         },
         pointer: {
-          show: true,
-          length: '70%',
-          width: 40,
-          showAbove: false,
+          icon: 'arrow',
+          length: '16%',
+          width: 15,
+          offsetCenter: [0, '-50%'],
           itemStyle: {
-            color: '#FFF'
+            color: 'auto',
           }
         },
         axisTick: {
@@ -249,10 +273,13 @@ export const getFatPercentageGauge = (value: number, quintiles: Quintile[], risk
           show: false
         },
         detail: {
-          formatter: '{value}%',
+          formatter: (value: number) => {
+            const truncated = Math.floor(value * 10) / 10
+            return `${truncated}%`.replace('.', ',')
+          },
           fontSize: 22,
           fontFamily: 'Maven Pro',
-          offsetCenter: [0, '20%']
+          offsetCenter: [0, '25%']
         },
         data: [{ value }]
       }
@@ -279,6 +306,18 @@ export const getFatPercentageGauge = (value: number, quintiles: Quintile[], risk
     }
   }
 
+  if (summary) {
+    config.series[0].pointer = {
+      icon: 'arrow',
+      length: '18%',
+      width: 15,
+      offsetCenter: [0, '-40%'],
+      itemStyle: {
+        color: 'auto',
+      }
+    }
+  }
+
   return config
 }
 
@@ -301,12 +340,12 @@ export const getVisceralFatAreaSummaryGauge = (value: number, quintiles: Quintil
           }
         },
         pointer: {
-          show: true,
-          length: '70%',
-          width: 40,
-          showAbove: false,
+          icon: 'arrow',
+          length: '18%',
+          width: 15,
+          offsetCenter: [0, '-40%'],
           itemStyle: {
-            color: '#FFF'
+            color: 'auto',
           }
         },
         axisTick: {
@@ -319,10 +358,13 @@ export const getVisceralFatAreaSummaryGauge = (value: number, quintiles: Quintil
           show: false
         },
         detail: {
-          formatter: '{value} cm²',
+          formatter: (value: number) => {
+            const truncated = Math.floor(value * 10) / 10
+            return `${truncated} cm²`.replace('.', ',')
+          },
           fontSize: 22,
           fontFamily: 'Maven Pro',
-          offsetCenter: [0, '20%']
+          offsetCenter: [0, '25%']
         },
         data: [{ value }]
       }

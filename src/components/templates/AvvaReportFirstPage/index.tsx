@@ -4,6 +4,7 @@ import CardBigNumber from './components/CardBigNumber'
 import Weight from '../../../assets/svg/first-page/weight.svg?react'
 import Man from '../../../assets/svg/first-page/man.svg?react'
 import WaterTreatment from '../../../assets/svg/first-page/water-treatment.svg?react'
+import Ruler from '../../../assets/svg/first-page/ruler.svg?react'
 import { useReportState } from '../../../create-store'
 import { useMemo } from 'react'
 
@@ -15,13 +16,17 @@ const AvvaReportFirstPage = () => {
 
   const cardioMetabolicRiskChartOption = useMemo(() => {
     if (analysis?.avarage) {
-      return getCardioMetabolicRiskChartOptions(analysis.avarage.value, analysis.avarage.quintiles)
+      return getCardioMetabolicRiskChartOptions(
+        analysis.avarage.value,
+        analysis.avarage.quintiles,
+        analysis.avarage.risk
+      )
     }
     return {}
   }, [analysis?.avarage])
 
   return (
-    <div className="content h-full w-full flex flex-col space-y-12">
+    <div className="content h-full w-full flex flex-col space-y-8">
       <div className="report-title-container">
         <p className="leading-[1.2] font-extrabold text-lg tracking-wide">
           Laudo da análise <br/>
@@ -41,28 +46,44 @@ const AvvaReportFirstPage = () => {
              alt="Back Avatar" />
       </div>
 
-      <div className="big-numbers-container flex items-center justify-center space-x-8">
-        <CardBigNumber Icon={Weight}
-                       label="Peso"
+      <div className="big-numbers-container flex items-center justify-center space-x-6">
+        <CardBigNumber label="Peso"
                        value={customer?.weight}
-                       unit="Kg"
-                       color="#efd8ea"/>
-        <CardBigNumber Icon={WaterTreatment}
-                       label="Volume"
-                       value={+((customer?.bodyVolume ?? 0) / 1000000).toFixed(2)}
-                       unit="L"
-                       color="#cce3f1"/>
-        <CardBigNumber Icon={Man}
-                       label="IMC"
+                       unit="kg"
+                       color="#efd8ea"
+                       Icon={Weight} />
+
+        <CardBigNumber label="Altura"
+                       value={customer?.height}
+                       unit="cm"
+                       color="#f8ba7f"
+                       Icon={() => (
+                         <div className="ruler-container rotate-90">
+                           <Ruler className="h-8" />
+                         </div>
+                       )}/>
+
+        <CardBigNumber label="IMC"
                        value={+(customer?.bmi ?? 0).toFixed(2)}
-                       unit="Kg/m2"
-                       color="#dbecc8"/>
+                       unit="kg/m²"
+                       color="#dbecc8"
+                       Icon={Man} />
+
+        <CardBigNumber label="Volume"
+                       value={+((customer?.bodyVolume ?? 0) / 1000000).toFixed(2)}
+                       unit="litros"
+                       color="#cce3f1"
+                       Icon={() => (
+                         <div className="treatment-icon">
+                           <WaterTreatment className="h-6"/>
+                         </div>
+                       )}/>
       </div>
 
       <div className="gauge-container flex flex-col space-y-8 w-full">
         <div className="chart-container">
           <ReactECharts option={cardioMetabolicRiskChartOption}
-                        style={{ height: 35 }}/>
+                        style={{ height: 100 }}/>
         </div>
         <div className="text-container text-center text-lg">
           <p className="leading-none">

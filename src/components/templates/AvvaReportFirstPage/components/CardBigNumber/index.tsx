@@ -13,7 +13,7 @@ const CardBigNumber: FC<CardBigNumberProps> = (props) => {
 
   return (
     <>
-      <div className="card-big-number-container flex flex-col items-center justify-center w-24 h-20 rounded-lg"
+      <div className="card-big-number-container flex flex-col items-center justify-center w-28 h-24 rounded-lg"
            style={{ backgroundColor }}>
         <div className="icon-container">
           <Icon />

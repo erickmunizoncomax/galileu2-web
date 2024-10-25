@@ -1,3 +1,5 @@
+import { CHART_COLORS } from '../constants'
+
 export const getQueryParam = (queryString: string, paramName: string) => {
   const params = new URLSearchParams(queryString)
   return params.get(paramName) as any
@@ -8,7 +10,13 @@ export const generateGaugeData = (quintiles: Quintile[]) => {
 
   const min = Math.min(...quintiles.map(q => q.limit))
   const max = Math.max(...quintiles.map(q => q.limit))
-  const colors = ['#6ECC39', '#B2D235', '#FFD400', '#FF8800', '#FF3333']
+  const colors = [
+    CHART_COLORS['very-low'],
+    CHART_COLORS.low,
+    CHART_COLORS.normal,
+    CHART_COLORS.high,
+    CHART_COLORS['very-high'],
+  ]
   const colorRanges: any[] = []
 
   quintiles.forEach((q, index, arr) => {

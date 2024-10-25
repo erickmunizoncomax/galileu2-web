@@ -32,7 +32,8 @@ const AvvaReportSecondPage = () => {
 
   const visceralFatAreaGaugeOption = useMemo(() => {
     if (analysis?.visceralFatArea) {
-      return getVisceralFatAreaGauge(analysis.visceralFatArea.value, analysis.visceralFatArea.quintiles, report?.visceralFatAreaRisk.title)
+      const text = `${report?.visceralFatAreaRisk.title}\n${report?.visceralFatAreaRisk.subtitle}`
+      return getVisceralFatAreaGauge(analysis.visceralFatArea.value, analysis.visceralFatArea.quintiles, text)
     }
     return {}
   }, [analysis?.visceralFatArea, report?.visceralFatAreaRisk])

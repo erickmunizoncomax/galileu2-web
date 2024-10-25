@@ -15,7 +15,11 @@ const AvvaReportFifthPage = () => {
 
   const cardioMetabolicRiskChartOption = useMemo(() => {
     if (analysis?.avarage) {
-      return getCardioMetabolicRiskChartOptions(analysis.avarage.value, analysis.avarage.quintiles)
+      return getCardioMetabolicRiskChartOptions(
+        analysis.avarage.value,
+        analysis.avarage.quintiles,
+        analysis.avarage.risk
+      )
     }
     return {}
   }, [analysis?.avarage])
@@ -29,14 +33,14 @@ const AvvaReportFifthPage = () => {
 
   const fatPercentageGaugeOption = useMemo(() => {
     if (analysis?.fatPercentage) {
-      return getFatPercentageGauge(analysis.fatPercentage.value, analysis.fatPercentage.quintiles)
+      return getFatPercentageGauge(analysis.fatPercentage.value, analysis.fatPercentage.quintiles, void 0, true)
     }
     return {}
   }, [analysis?.fatPercentage])
 
   const rCEstGaugeOption = useMemo(() => {
     if (analysis?.waistToHeightRatio) {
-      return getRCEstGauge(analysis.waistToHeightRatio.value, analysis.waistToHeightRatio.quintiles)
+      return getRCEstGauge(analysis.waistToHeightRatio.value, analysis.waistToHeightRatio.quintiles, void 0, true)
     }
     return {}
   }, [analysis?.waistToHeightRatio])
@@ -73,7 +77,7 @@ const AvvaReportFifthPage = () => {
         <div className="gauge-container flex flex-col space-y-8 w-full my-8">
           <div className="chart-container">
             <ReactECharts option={cardioMetabolicRiskChartOption}
-                          style={{ height: 35 }}/>
+                          style={{ height: 100 }}/>
           </div>
           <div className="text-container text-center text-lg">
           <p className="leading-none">

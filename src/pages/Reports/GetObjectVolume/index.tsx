@@ -10,7 +10,6 @@ const GetObjectVolume = () => {
   const handleVolumeLoad = (bodyVolume: number) => {
     const eventInit = { detail: { bodyVolume }}
     const event = new CustomEvent(`bodyVolumeReadyEvent`, eventInit)
-    console.log('bodyVolumeReadyEvent')
     window.dispatchEvent(event)
   }
 
@@ -25,6 +24,7 @@ const GetObjectVolume = () => {
       if (eventMapping[name]) {
         const eventName = eventMapping[name]
         const event = new CustomEvent(eventName)
+        console.log(eventMapping[name])
         window.dispatchEvent(event)
       }
     }

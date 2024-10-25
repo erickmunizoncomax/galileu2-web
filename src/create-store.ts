@@ -1,6 +1,5 @@
 import { create } from "zustand"
 import { immer } from "zustand/middleware/immer"
-import json from './mock/sandra.json'
 
 type ReportState = {
   header?: Header
@@ -27,7 +26,6 @@ export const useReportState = create(
         const json = JSON.parse(storedValue)
         state.setReportData(json as ReportData)
       }
-      state.setReportData(json as any)
     })
   }))
 )
